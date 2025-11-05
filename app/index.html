@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>StackBlitz Zip API</title>
+  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;margin:2rem}</style>
+</head>
+<body>
+  <h1>StackBlitz Zip API</h1>
+  <p>Replace <code>stackblitz.com</code> with <code>stackblitz.zip</code> in any StackBlitz URL.</p>
+  <ul>
+    <script server>
+      const links = [
+        'https://stackblitz.zip/edit/nuxt-starter-k7spa3r4',
+        'https://stackblitz.zip/edit/vitejs-vite-starter',
+      ]
+    </script>
+    <? for (const link of links) { ?>
+      <li><a href="<?= link ?>" target="_blank" rel="noopener noreferrer"><?= link ?></a></li>
+    <? } ?>
+  </ul>
+  <p>The <code>.zip</code> extension is optional but recommended for clarity.</p>
+  <footer style="margin-top:2rem;border-top:1px solid #eee;padding-top:1rem;font-size:0.9rem;color:#555">
+    <p>Star on GitHub: <a href="https://github.com/danielroe/stackblitz.zip" target="_blank" rel="noopener noreferrer">danielroe/stackblitz.zip</a></p>
+  </footer>
+</body>
+</html>

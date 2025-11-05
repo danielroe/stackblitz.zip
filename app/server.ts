@@ -1,8 +1,11 @@
-import { defineEventHandler, getRouterParam, HTTPError } from 'h3'
+import { defineHandler, HTTPError } from 'nitro/h3'
 import { downloadToBlob, parseUrl } from 'stackblitz-zip'
 
-export default defineEventHandler(async (event) => {
-  const path = getRouterParam(event, 'path')
+export default defineHandler(async (event) => {
+  if (event.url.pathname === '/')
+    return
+
+  const path = event.context.params!.path
 
   if (!path) {
     throw new HTTPError({
