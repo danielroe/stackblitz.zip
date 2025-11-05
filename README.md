@@ -7,7 +7,11 @@
 [![Github Actions][github-actions-src]][github-actions-href]
 [![Codecov][codecov-src]][codecov-href]
 
-## 🌐 Web Service
+## ❓ Why?
+
+There's no first-party API to download projects and I wanted to be able to download reproductions for issues more quickly.
+
+## 🌐 stackblitz.zip
 
 The easiest way to download a StackBlitz project is at **[stackblitz.zip](https://stackblitz.zip)**
 
@@ -18,7 +22,13 @@ Original:  https://stackblitz.com/edit/nuxt-starter-k7spa3r4
 Download:  https://stackblitz.zip/edit/nuxt-starter-k7spa3r4
 ```
 
-No authentication or API keys required!
+### Features
+
+- 🔓 No authentication or API keys required!
+- ⚗️ Built on [Nitro](https://nitro.build/)
+- ▲ Deployed on [Vercel](http://vercel.com)
+
+👉 [see source](https://github.com/danielroe/stackblitz.zip/tree/main/app/)
 
 ## CLI
 
@@ -98,16 +108,16 @@ URL.revokeObjectURL(url)
 
 ## Self-Hosting
 
-Self-host the web service using the included Nitro app:
+Self-host the web service using the included [Nitro](https://nitro.build) app:
 
 ```bash
-cd nitro-app
+cd app
 pnpm install
 pnpm build
 pnpm preview
 ```
 
-Deploy the `.output` directory to any Node.js hosting platform.
+Deploy to any platform using [Nitro's deployment presets](https://nitro.build/deploy) - supports Vercel, Netlify, Cloudflare Pages, AWS, Azure, Node.js, and many more.
 
 ## API
 

@@ -1,6 +1,8 @@
 # StackBlitz.zip
 
-A simple Nitro v3 API that lets you download StackBlitz projects by changing the domain from `stackblitz.com` to `stackblitz.zip`.
+A simple [Nitro](https://nitro.build) API that lets you download StackBlitz projects programmatically by changing the domain from `stackblitz.com` to `stackblitz.zip`.
+
+Deployed on Vercel at [stackblitz.zip](https://stackblitz.zip).
 
 ## Usage
 
@@ -43,4 +45,4 @@ pnpm build
 pnpm preview
 ```
 
-Deploy the `.output` directory to any Node.js hosting platform.
+Deploy to any platform using [Nitro's deployment presets](https://nitro.build/deploy) - supports Vercel, Netlify, Cloudflare Pages, AWS, Azure, Node.js, and many more.
