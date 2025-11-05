@@ -18,6 +18,10 @@ interface StackBlitzProject {
   }>
 }
 
+interface StackBlitzProjectResponse {
+  project: StackBlitzProject
+}
+
 async function createZip(options: Omit<DownloadOptions, 'outputPath'>): Promise<JSZip> {
   const {
     projectId,
@@ -31,7 +35,7 @@ async function createZip(options: Omit<DownloadOptions, 'outputPath'>): Promise<
     throw new Error('Invalid project ID: must contain only alphanumeric characters, hyphens, and underscores')
   }
 
-  const url = `https://stackblitz.com/edit/${projectId}`
+  const url = `https://stackblitz.com/api/projects/${projectId}?include_files=true`
   if (verbose) {
     // eslint-disable-next-line no-console
     console.log(`Fetching project: ${url}`)
@@ -48,18 +52,7 @@ async function createZip(options: Omit<DownloadOptions, 'outputPath'>): Promise<
       throw new Error(`Failed to fetch project: ${response.statusText}`)
     }
 
-    const html = await response.text()
-
-    // Extract project data from the Redux store
-    const scriptMatch = html.match(/<script type="application\/json" data-redux-store="">([\s\S]*?)<\/script>/)
-
-    if (!scriptMatch || !scriptMatch[1]) {
-      throw new Error('Could not find project data in page')
-    }
-
-    // Parse the JSON data
-    const reduxStore = JSON.parse(scriptMatch[1])
-    const projectData = reduxStore?.project as StackBlitzProject | undefined
+    const { project: projectData } = await response.json() as StackBlitzProjectResponse
 
     if (!projectData || !projectData.appFiles) {
       throw new Error('No files found in project data')
