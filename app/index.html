@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
 
 <head>
   <meta charset="utf-8">
@@ -21,7 +21,7 @@
         </p>
 
         <div class="url-example">
-          <h3>How it works</h3>
+          <h2>How it works</h2>
           <script server>
             const example = {
               name: 'nuxtblitz',
@@ -78,7 +78,7 @@
                   <span>copy</span>
                 </button>
               </div>
-              <pre><code lang="bash" id="cli-code"><span class="comment"># download to my-project.zip</span>
+              <pre><code id="cli-code"><span class="comment"># download to my-project.zip</span>
 
 npx stackblitz-zip https://stackblitz.com/edit/nuxtblitz my-project.zip</code></pre>
             </div>
@@ -96,7 +96,7 @@ npx stackblitz-zip https://stackblitz.com/edit/nuxtblitz my-project.zip</code></
                   <span>copy</span>
                 </button>
               </div>
-              <pre><code lang="javascript" id="programmatic-code"><span class="keyword">import</span> { <span class="function">downloadProject</span> } <span class="keyword">from</span> <span class="string">'stackblitz-zip'</span>
+              <pre><code id="programmatic-code"><span class="keyword">import</span> { <span class="function">downloadProject</span> } <span class="keyword">from</span> <span class="string">'stackblitz-zip'</span>
 
 <span class="keyword">await</span> <span class="function">downloadProject</span>(<span class="string">'nuxtblitz'</span>, <span class="string">'output.zip'</span>)</code></pre>
             </div>

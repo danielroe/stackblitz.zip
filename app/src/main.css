@@ -6,11 +6,30 @@
 
 :root {
   --bg: #0a0a0a;
+  --bg-elevated: #111;
+  --bg-elevated-hover: #1a1a1a;
+  --bg-elevated-alt: #222;
   --text: #ffffff;
-  --text-muted: #a0a0a0;
+  --text-muted: #b3b3b3;
+  --text-muted-dark: #8a8a8a;
   --border: #1a1a1a;
   --accent: #646cff;
   --accent-hover: #747bff;
+  --gradient-end: #a0a0a0;
+  --highlight-blue: #1389fd;
+  --highlight-red: #ff8787;
+  --highlight-green: #69db7c;
+  --warning-bg: rgba(255, 193, 7, 0.02);
+  --warning-border: rgba(255, 193, 7, 0.1);
+  --warning-icon: rgba(255, 193, 7, 0.5);
+  --warning-text: #ffc107;
+  --warning-text-muted: rgba(255, 193, 7, 0.3);
+  --success-bg: #1a4d1a;
+  --success-accent: #51cf66;
+  --syntax-comment: #8b949e;
+  --syntax-keyword: #ff7b72;
+  --syntax-string: #a5d6ff;
+  --syntax-function: #d2a8ff;
 }
 
 body {
@@ -49,16 +68,16 @@ main {
   line-height: 1.1;
   margin-bottom: 1.5rem;
   color: var(--text);
-  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--gradient-end) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .hero-title .highlight {
-  color: #1389fd;
+  color: var(--highlight-blue);
   background: none;
-  -webkit-text-fill-color: #1389fd;
+  -webkit-text-fill-color: var(--highlight-blue);
 }
 
 @supports not (background-clip: text) {
@@ -78,7 +97,7 @@ main {
 
 .url-example {
   margin: 0 auto 4rem;
-  background: #111;
+  background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 2rem;
@@ -123,7 +142,7 @@ main {
 
 .url-example-link {
   padding: 0.4rem 0.8rem;
-  background: #1a1a1a;
+  background: var(--bg-elevated-hover);
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text-muted);
@@ -134,7 +153,7 @@ main {
 }
 
 .url-example-link:hover {
-  background: #222;
+  background: var(--bg-elevated-alt);
   border-color: var(--accent);
   color: var(--text);
 }
@@ -158,19 +177,19 @@ main {
 }
 
 .url-value .highlight-red {
-  color: #ff6b6b;
+  color: var(--highlight-red);
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
 
 .url-value .highlight-green {
-  color: #51cf66;
+  color: var(--highlight-green);
   font-weight: 700;
 }
 
 .disclaimer {
-  background: rgba(255, 193, 7, 0.02);
-  border-top: 1px solid rgba(255, 193, 7, 0.1);
+  background: var(--warning-bg);
+  border-top: 1px solid var(--warning-border);
   padding: 0.75rem 1rem;
   margin: 0 -2rem -2rem -2rem;
   border-radius: 0 0 12px 12px;
@@ -183,28 +202,28 @@ main {
   flex-shrink: 0;
   width: 14px;
   height: 14px;
-  color: rgba(255, 193, 7, 0.5);
+  color: var(--warning-icon);
 }
 
 .disclaimer-text {
   font-size: 0.75rem;
-  color: #6a6a6a;
+  color: var(--text-muted-dark);
   line-height: 1.4;
 }
 
 .disclaimer-text a {
-  color: rgba(255, 193, 7, 0.7);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s;
+  color: var(--warning-text);
+  text-decoration: underline;
+  text-decoration-color: var(--warning-text-muted);
+  transition: text-decoration-color 0.2s;
 }
 
 .disclaimer-text a:hover {
-  border-bottom-color: rgba(255, 193, 7, 0.7);
+  text-decoration-color: var(--warning-text);
 }
 
 .code-sample {
-  background: #111;
+  background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;
@@ -222,7 +241,7 @@ main {
 }
 
 .copy-button {
-  background: #1a1a1a;
+  background: var(--bg-elevated-hover);
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text-muted);
@@ -236,15 +255,15 @@ main {
 }
 
 .copy-button:hover {
-  background: #222;
+  background: var(--bg-elevated-alt);
   border-color: var(--accent);
   color: var(--text);
 }
 
 .copy-button.copied {
-  background: #1a4d1a;
-  border-color: #51cf66;
-  color: #51cf66;
+  background: var(--success-bg);
+  border-color: var(--success-accent);
+  color: var(--success-accent);
 }
 
 .copy-button svg {
@@ -280,7 +299,7 @@ main {
 }
 
 .code-sample pre {
-  background: #0a0a0a;
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.25rem;
@@ -291,19 +310,19 @@ main {
 }
 
 .code-sample .comment {
-  color: #6a737d;
+  color: var(--syntax-comment);
 }
 
 .code-sample .keyword {
-  color: #ff7b72;
+  color: var(--syntax-keyword);
 }
 
 .code-sample .string {
-  color: #a5d6ff;
+  color: var(--syntax-string);
 }
 
 .code-sample .function {
-  color: #d2a8ff;
+  color: var(--syntax-function);
 }
 
 .read-more {
@@ -316,7 +335,7 @@ main {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: #111;
+  background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
@@ -326,7 +345,7 @@ main {
 }
 
 .read-more-link:hover {
-  background: #1a1a1a;
+  background: var(--bg-elevated-hover);
   border-color: var(--accent);
   transform: translateY(-2px);
 }
@@ -358,13 +377,15 @@ footer {
 
 .footer-links a {
   color: var(--text-muted);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: rgba(179, 179, 179, 0.3);
   font-size: 0.9rem;
-  transition: color 0.2s;
+  transition: all 0.2s;
 }
 
 .footer-links a:hover {
   color: var(--text);
+  text-decoration-color: currentColor;
 }
 
 .copyright {
@@ -387,8 +408,14 @@ footer {
 .copyright a {
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: rgba(179, 179, 179, 0.3);
   color: inherit;
+  transition: text-decoration-color 0.2s;
+}
+
+.copyright a:hover {
+  text-decoration-color: currentColor;
 }
 
 .copyright a:hover svg {
