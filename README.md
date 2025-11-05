@@ -1,6 +1,6 @@
 # stackblitz-zip
 
-> Download StackBlitz projects programmatically
+> Download [StackBlitz](https://stackblitz.com/) projects programmatically
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -9,7 +9,7 @@
 
 ## ❓ Why?
 
-There's no first-party API to download projects and I wanted to be able to download reproductions for issues more quickly.
+There's no first-party API from [StackBlitz](https://stackblitz.com/) to download projects and I wanted to be able to download reproductions for issues more quickly.
 
 ## 🌐 stackblitz.zip
 
