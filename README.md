@@ -161,7 +161,7 @@ Parse a StackBlitz URL and extract the project ID.
 
 ```bash
 # clone this repository
-git clone https://github.com/danielroe/stackblitz-clone
+git clone https://github.com/danielroe/stackblitz.zip
 
 # install dependencies
 corepack enable
