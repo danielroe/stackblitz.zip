@@ -12,9 +12,9 @@
   <ul>
     <script server>
       const links = [
-        'https://stackblitz.zip/edit/nuxt-starter-k7spa3r4',
-        'https://stackblitz.zip/edit/vitejs-vite-starter',
-      ]
+        '/edit/nuxt-starter-k7spa3r4',
+        '/edit/vitejs-vite-starter',
+      ].map(path => new URL(path, $REQUEST.url).href)
     </script>
     <? for (const link of links) { ?>
       <li><a href="<?= link ?>" target="_blank" rel="noopener noreferrer"><?= link ?></a></li>
