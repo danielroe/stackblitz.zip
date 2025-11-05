@@ -6,7 +6,7 @@
         "stackblitz-zip"
       ],
       "entry": [
-        "routes/**"
+        "server.ts"
       ]
     }
   }
