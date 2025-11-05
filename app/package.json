@@ -7,13 +7,13 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
-    "dev": "nitro dev",
-    "build": "nitro build",
+    "dev": "vite dev",
+    "build": "vite build",
     "postinstall": "cd .. && pnpm build",
     "preview": "node .output/server/index.mjs"
   },
   "dependencies": {
-    "nitro": "npm:nitro-nightly",
+    "nitro": "npm:nitro-nightly@3.0.1-20251105-152910-c0ee44bf",
     "stackblitz-zip": "workspace:*",
     "vite": "^7.2.0"
   }
