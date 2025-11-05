@@ -9,7 +9,7 @@
 
 ## ❓ Why?
 
-There's no first-party API from [StackBlitz](https://stackblitz.com/) to download projects and I wanted to be able to download reproductions for issues more quickly.
+While [StackBlitz](https://stackblitz.com/) provides an API to fetch project data, there's no built-in way to download projects as zip files. This tool makes it easy to download reproductions for issues quickly.
 
 > [!IMPORTANT]
 > This project is not affiliated with or endorsed by StackBlitz in any way. Users are responsible for ensuring their use of this tool complies with [StackBlitz's Terms of Service](https://stackblitz.com/terms-of-service). Please review their terms before using this tool.
