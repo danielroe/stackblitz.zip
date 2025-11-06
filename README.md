@@ -70,10 +70,14 @@ await downloadToFile({
 ### Web APIs
 
 ```typescript
-import { downloadToBlob, parseUrl } from 'stackblitz-zip'
+import { downloadToBlob, downloadToResponse, parseUrl } from 'stackblitz-zip'
 
-// download as Blob (browser-friendly)
+// download as Web Response (edge runtimes, servers)
 const projectId = parseUrl('https://stackblitz.com/edit/nuxt-starter-k7spa3r4')
+const response = await downloadToResponse({ projectId })
+// response can be returned directly from edge functions
+
+// or download as Blob (browser-friendly)
 const blob = await downloadToBlob({ projectId })
 
 // trigger browser download
@@ -135,6 +139,14 @@ Downloads a StackBlitz project and returns the path to the created zip file.
 - `maxFileSize` (number, optional): Maximum size per file in bytes. Defaults to `10485760` (10MB)
 - `maxTotalSize` (number, optional): Maximum total project size in bytes. Defaults to `104857600` (100MB)
 - `verbose` (boolean, optional): Enable console logging. Defaults to `false`
+
+### `downloadToResponse(options): Promise<Response>`
+
+Downloads a StackBlitz project and returns it as a Web Response (universal).
+
+**Options:** Same as `downloadToFile` except `outputPath`
+
+**Returns:** A Response object containing the zip file stream
 
 ### `downloadToBuffer(options): Promise<ArrayBuffer>`
 
