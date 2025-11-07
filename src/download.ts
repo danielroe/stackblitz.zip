@@ -200,6 +200,152 @@ export async function downloadToFile(options: DownloadOptions): Promise<string> 
   return finalOutputPath
 }
 
+export interface CloneOptions {
+  projectId: string
+  outputPath?: string
+  timeout?: number
+  maxFileSize?: number
+  maxTotalSize?: number
+  verbose?: boolean
+}
+
+/**
+ * Clones a StackBlitz project by creating all files in a target directory (Node.js only)
+ *
+ * @param options - Configuration options for cloning
+ * @returns Path to the created directory
+ *
+ * @example
+ * ```ts
+ * import { cloneProject } from 'stackblitz-zip'
+ *
+ * await cloneProject({
+ *   projectId: 'nuxt-starter-k7spa3r4',
+ *   outputPath: './my-project'
+ * })
+ * ```
+ */
+export async function cloneProject(options: CloneOptions): Promise<string> {
+  const {
+    projectId,
+    outputPath,
+    timeout = 30000,
+    maxFileSize = 10 * 1024 * 1024, // 10MB per file
+    maxTotalSize = 100 * 1024 * 1024, // 100MB total
+    verbose = false,
+  } = options
+
+  if (!/^[\w-]+$/.test(projectId)) {
+    throw new Error('Invalid project ID: must contain only alphanumeric characters, hyphens, and underscores')
+  }
+
+  // Dynamically import Node.js modules
+  const { resolve, join, dirname } = await import('node:path')
+  const { writeFile, mkdir } = await import('node:fs/promises')
+  const process = await import('node:process')
+
+  // Determine output path
+  const finalOutputPath = outputPath || resolve(process.cwd(), projectId)
+
+  const url = `https://stackblitz.com/api/projects/${projectId}?include_files=true`
+  if (verbose) {
+    // eslint-disable-next-line no-console
+    console.log(`Fetching project: ${url}`)
+  }
+
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeout)
+
+  try {
+    const response = await fetch(url, { signal: controller.signal })
+    clearTimeout(timeoutId)
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch project: ${response.statusText}`)
+    }
+
+    const { project: projectData } = await response.json() as StackBlitzProjectResponse
+
+    if (!projectData || !projectData.appFiles) {
+      throw new Error('No files found in project data')
+    }
+
+    if (verbose) {
+      // eslint-disable-next-line no-console
+      console.log(`Found ${Object.keys(projectData.appFiles).length} files in project`)
+    }
+
+    let totalSize = 0
+    let fileCount = 0
+
+    // Create the output directory
+    await mkdir(finalOutputPath, { recursive: true })
+
+    // Write all files to the target directory
+    for (const [filePath, fileData] of Object.entries(projectData.appFiles)) {
+      if (filePath.includes('node_modules/') || filePath.includes('.git/')) {
+        continue
+      }
+
+      // Skip directories
+      if (fileData.type !== 'file') {
+        continue
+      }
+
+      // Sanitize file path to prevent directory traversal
+      const normalizedPath = normalizePath(filePath)
+      if (!normalizedPath || normalizedPath.startsWith('/') || normalizedPath.includes('..')) {
+        if (verbose) {
+          console.warn(`Skipping suspicious file path: ${filePath}`)
+        }
+        continue
+      }
+
+      // Check file size
+      const encoder = new TextEncoder()
+      const fileBytes = encoder.encode(fileData.contents)
+      const fileSize = fileBytes.length
+
+      if (fileSize > maxFileSize) {
+        throw new Error(`File ${normalizedPath} exceeds maximum size of ${maxFileSize} bytes`)
+      }
+
+      totalSize += fileSize
+      if (totalSize > maxTotalSize) {
+        throw new Error(`Total project size exceeds maximum of ${maxTotalSize} bytes`)
+      }
+
+      // Create file path and ensure parent directories exist
+      const fullFilePath = join(finalOutputPath, normalizedPath)
+      const fileDir = dirname(fullFilePath)
+      await mkdir(fileDir, { recursive: true })
+
+      // Write the file
+      await writeFile(fullFilePath, fileData.contents, 'utf-8')
+      fileCount++
+
+      if (verbose) {
+        // eslint-disable-next-line no-console
+        console.log(`Created file: ${normalizedPath}`)
+      }
+    }
+
+    if (verbose) {
+      // eslint-disable-next-line no-console
+      console.log(`✅ Project cloned to: ${finalOutputPath} (${fileCount} files)`)
+    }
+
+    return finalOutputPath
+  }
+  catch (error) {
+    clearTimeout(timeoutId)
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Request timed out after ${timeout}ms`)
+    }
+    throw error
+  }
+}
+
 /**
  * Downloads a StackBlitz project and returns it as an ArrayBuffer (universal)
  *

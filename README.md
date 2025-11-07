@@ -36,11 +36,17 @@ Download:  https://stackblitz.zip/edit/nuxt-starter-k7spa3r4
 ## CLI
 
 ```bash
-# download a project
+# download a project as a zip file
 npx stackblitz-zip https://stackblitz.com/edit/nuxt-starter-k7spa3r4
 
-# specify output path
+# specify output path for zip
 npx stackblitz-zip https://stackblitz.com/edit/nuxt-starter-k7spa3r4 my-project.zip
+
+# clone project to a directory
+npx stackblitz-clone https://stackblitz.com/edit/nuxt-starter-k7spa3r4
+
+# clone to a specific directory
+npx stackblitz-clone https://stackblitz.com/edit/nuxt-starter-k7spa3r4 ./my-project
 ```
 
 ## Programmatic Usage
@@ -54,9 +60,9 @@ npm install stackblitz-zip
 ### Node.js
 
 ```typescript
-import { downloadToFile, parseUrl } from 'stackblitz-zip'
+import { cloneProject, downloadToFile, parseUrl } from 'stackblitz-zip'
 
-// download from a URL
+// download from a URL as a zip file
 const projectId = parseUrl('https://stackblitz.com/edit/nuxt-starter-k7spa3r4')
 await downloadToFile({ projectId, outputPath: './output.zip' })
 
@@ -64,6 +70,12 @@ await downloadToFile({ projectId, outputPath: './output.zip' })
 await downloadToFile({
   projectId: 'nuxt-starter-k7spa3r4',
   outputPath: './my-project.zip',
+})
+
+// clone project to a directory
+await cloneProject({
+  projectId: 'nuxt-starter-k7spa3r4',
+  outputPath: './my-project',
 })
 ```
 
@@ -139,6 +151,20 @@ Downloads a StackBlitz project and returns the path to the created zip file.
 - `maxFileSize` (number, optional): Maximum size per file in bytes. Defaults to `10485760` (10MB)
 - `maxTotalSize` (number, optional): Maximum total project size in bytes. Defaults to `104857600` (100MB)
 - `verbose` (boolean, optional): Enable console logging. Defaults to `false`
+
+### `cloneProject(options: CloneOptions): Promise<string>`
+
+Clones a StackBlitz project by creating all files in a target directory.
+
+**Options:**
+- `projectId` (string, required): The StackBlitz project ID
+- `outputPath` (string, optional): Path where the project directory should be created. Defaults to `<project-id>/`
+- `timeout` (number, optional): Timeout in milliseconds for loading the project. Defaults to `30000` (30 seconds)
+- `maxFileSize` (number, optional): Maximum size per file in bytes. Defaults to `10485760` (10MB)
+- `maxTotalSize` (number, optional): Maximum total project size in bytes. Defaults to `104857600` (100MB)
+- `verbose` (boolean, optional): Enable console logging. Defaults to `false`
+
+**Returns:** Path to the created directory
 
 ### `downloadToResponse(options): Promise<Response>`
 

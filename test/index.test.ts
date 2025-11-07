@@ -1,16 +1,24 @@
 import { existsSync, readFileSync, unlinkSync } from 'node:fs'
+import { rm } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { unzip } from 'unzipit'
 import { afterEach, describe, expect, it } from 'vitest'
-import { downloadToBuffer, downloadToFile, parseUrl } from '../src'
+import { cloneProject, downloadToBuffer, downloadToFile, parseUrl } from '../src'
 
 const testOutputs: string[] = []
 
-afterEach(() => {
-  // Clean up any test zip files
+afterEach(async () => {
+  // Clean up any test zip files and directories
   for (const file of testOutputs) {
     if (existsSync(file)) {
-      unlinkSync(file)
+      try {
+        // Try to remove as directory first
+        await rm(file, { recursive: true, force: true })
+      }
+      catch {
+        // Fall back to file removal
+        unlinkSync(file)
+      }
     }
   }
   testOutputs.length = 0
@@ -127,5 +135,68 @@ describe('downloadToBuffer', () => {
 
     expect(buffer).toBeInstanceOf(ArrayBuffer)
     expect(buffer.byteLength).toBeGreaterThan(0)
+  }, 30000)
+})
+
+describe('cloneProject', () => {
+  it('clones a valid project and creates directory with files', async () => {
+    const outputPath = resolve(process.cwd(), 'test-clone')
+    testOutputs.push(outputPath)
+
+    const result = await cloneProject({
+      projectId: 'nuxt-starter-k7spa3r4',
+      outputPath,
+    })
+
+    expect(result).toBe(outputPath)
+    expect(existsSync(outputPath)).toBe(true)
+
+    // Check for expected files
+    const packageJsonPath = resolve(outputPath, 'package.json')
+    const appVuePath = resolve(outputPath, 'app.vue')
+
+    expect(existsSync(packageJsonPath)).toBe(true)
+    expect(existsSync(appVuePath)).toBe(true)
+
+    // Verify file contents
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'))
+    expect(packageJson).toHaveProperty('name')
+  }, 30000)
+
+  it('generates default output path when not specified', async () => {
+    const result = await cloneProject({
+      projectId: 'nuxt-starter-k7spa3r4',
+    })
+
+    testOutputs.push(result)
+    expect(result).toMatch(/nuxt-starter-k7spa3r4$/)
+    expect(existsSync(result)).toBe(true)
+
+    const packageJsonPath = resolve(result, 'package.json')
+    expect(existsSync(packageJsonPath)).toBe(true)
+  }, 30000)
+
+  it('throws error for invalid project ID', async () => {
+    await expect(
+      cloneProject({
+        projectId: 'this-project-definitely-does-not-exist-123456789',
+      }),
+    ).rejects.toThrow()
+  })
+
+  it('excludes node_modules and .git directories', async () => {
+    const outputPath = resolve(process.cwd(), 'test-clone-exclusions')
+    testOutputs.push(outputPath)
+
+    await cloneProject({
+      projectId: 'nuxt-starter-k7spa3r4',
+      outputPath,
+    })
+
+    const nodeModulesPath = resolve(outputPath, 'node_modules')
+    const gitPath = resolve(outputPath, '.git')
+
+    expect(existsSync(nodeModulesPath)).toBe(false)
+    expect(existsSync(gitPath)).toBe(false)
   }, 30000)
 })

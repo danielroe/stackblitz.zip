@@ -20,7 +20,8 @@
     }
   },
   "bin": {
-    "stackblitz-zip": "./dist/cli.mjs"
+    "stackblitz-zip": "./dist/cli/zip.mjs",
+    "stackblitz-clone": "./dist/cli/clone.mjs"
   },
   "files": [
     "dist"
@@ -32,6 +33,7 @@
     "prepare": "simple-git-hooks",
     "prepack": "pnpm build",
     "prepublishOnly": "pnpm lint && pnpm test",
+    "publish:alias": "node scripts/publish-alias.js",
     "release": "bumpp",
     "test": "pnpm test:unit && pnpm test:types",
     "test:unit": "vitest",

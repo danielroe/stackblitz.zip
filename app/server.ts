@@ -6,6 +6,12 @@ export default defineHandler(async (event) => {
   if (pathname === '/')
     return // render index.html
 
+  // Check if this is a clone request (just redirect to regular download for now)
+  if (pathname.startsWith('/clone/')) {
+    const cleanPath = pathname.replace(/^\/clone\//, '')
+    return Response.redirect(`https://stackblitz.zip/${cleanPath}`, 302)
+  }
+
   // Convert stackblitz.zip URL to stackblitz.com URL
   const stackblitzUrl = `https://stackblitz.com/${pathname.replace(/^\/|\.zip$/g, '')}`
 

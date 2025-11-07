@@ -79,8 +79,10 @@
                 </button>
               </div>
               <pre><code id="cli-code"><span class="comment"># download to my-project.zip</span>
+npx stackblitz-zip https://stackblitz.com/edit/nuxtblitz my-project.zip
 
-npx stackblitz-zip https://stackblitz.com/edit/nuxtblitz my-project.zip</code></pre>
+<span class="comment"># or clone to a directory</span>
+npx stackblitz-clone https://stackblitz.com/edit/nuxtblitz my-project</code></pre>
             </div>
 
             <div class="code-sample">
@@ -96,9 +98,11 @@ npx stackblitz-zip https://stackblitz.com/edit/nuxtblitz my-project.zip</code></
                   <span>copy</span>
                 </button>
               </div>
-              <pre><code id="programmatic-code"><span class="keyword">import</span> { <span class="function">downloadProject</span> } <span class="keyword">from</span> <span class="string">'stackblitz-zip'</span>
+              <pre><code id="programmatic-code"><span class="keyword">import</span> { <span class="function">downloadToFile</span>, <span class="function">cloneProject</span> } <span class="keyword">from</span> <span class="string">'stackblitz-zip'</span>
 
-<span class="keyword">await</span> <span class="function">downloadProject</span>(<span class="string">'nuxtblitz'</span>, <span class="string">'output.zip'</span>)</code></pre>
+<span class="keyword">await</span> <span class="function">downloadToFile</span>({ <span class="string">projectId</span>: <span class="string">'nuxtblitz'</span>, <span class="string">outputPath</span>: <span class="string">'out.zip'</span> })
+
+<span class="keyword">await</span> <span class="function">cloneProject</span>({ <span class="string">projectId</span>: <span class="string">'nuxtblitz'</span>, <span class="string">outputPath</span>: <span class="string">'./out'</span> })</code></pre>
             </div>
           </div>
         </div>
